@@ -15,7 +15,20 @@ class Sprite(sprite.Sprite):
         self.rect.y = y
     def reset(self):
         window.blit(self.image,(self.rect.x,self.rect.y))
-        
+
+class Racket(Sprite):
+    def __init__(self, x, y, width, height, image_file, speed, k_up, k_down):
+        super().__init__(x, y, width, height, image_file)
+        self.speed = speed
+        self.k_up = k_up
+        self.k_down = k_down
+    def update(self):
+        keys = key.get_pressed()
+        if keys[self.k_up] and self.rect.y > 0:
+            self.rect.y -= self.speed
+        if keys[self.k_down] and self.rect.y < 800-self.rect.height:
+            self.rect.y += self.speed
+
 timer = time.Clock()
 
 font.init() 
