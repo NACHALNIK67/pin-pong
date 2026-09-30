@@ -9,6 +9,7 @@ window = display.set_mode((WIN_WIDTH, WIN_HEIGHT))
 
 class Sprite(sprite.Sprite):
     def __init__(self, x, y, width, height, image_file,):
+        super().__init__()
         self.image = transform.scale(image.load(image_file),(width,height))
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -29,7 +30,12 @@ class Racket(Sprite):
         if keys[self.k_down] and self.rect.y < 800-self.rect.height:
             self.rect.y += self.speed
 
+racket_left = Racket(10,300,50,200,'racket.png',8,K_w,K_s)
+racket_right = Racket(840,300,50,200,'racket.png',8,K_UP,K_DOWN)
+
 timer = time.Clock()
+
+rackets = sprite.Group(racket_left,racket_right)
 
 font.init() 
 
@@ -42,5 +48,9 @@ while game:
             game = False
 
     window.fill((50, 64, 112))
+
+    rackets.draw(window)
+    rackets.update()
+
     display.update()
     timer.tick(FPS)
