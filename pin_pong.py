@@ -52,9 +52,18 @@ class Ball(Sprite):
 
 font.init() 
 
+font_1 = font.Font(None, 50)
+left_win = font_1.render('Победил левый игрок',True,(100,255,100))
+right_win = font_1.render('Победил правый игрок',True,(100,255,100))
+
+finish = False
+
 game = True
 
 ball = Ball(475,325,50,50,'ball.png',5)
+
+left_lose = False
+right_lose = False
 
 while game:
 
@@ -65,9 +74,22 @@ while game:
     window.fill((50, 64, 112))
 
     rackets.draw(window)
-    rackets.update()
     ball.reset()
-    ball.update()
+
+    if not finish:
+        rackets.update()
+        ball.update()
+        if ball.rect.x < -50:
+            left_lose = True
+            finish = True
+        if ball.rect.x > 900:
+            right_lose = True
+            finish = True
+
+    if left_lose:
+        window.blit(right_win,(250,350))
+    if right_lose:
+        window.blit(left_win,(250,350))
 
     display.update()
     timer.tick(FPS)
