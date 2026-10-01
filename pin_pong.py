@@ -37,6 +37,19 @@ timer = time.Clock()
 
 rackets = sprite.Group(racket_left,racket_right)
 
+class Ball(Sprite):
+    def __init__(self, x, y, width, height, image_file,speed):
+        super().__init__(x, y, width, height, image_file)
+        self.speed_x = speed
+        self.speed_y = speed
+    def update(self):
+        self.rect.x += self.speed_x
+        self.rect.y += self.speed_y
+        if self.rect.y < 0 or self.rect.y > 700:
+            self.speed_y * -1
+        if sprite.spritecollide(self, rackets, False):
+            self.speed_x * -1
+
 font.init() 
 
 game = True
